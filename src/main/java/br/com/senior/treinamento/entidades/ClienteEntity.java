@@ -1,4 +1,4 @@
-package br.com.senior.treinamento.cliente;
+package br.com.senior.treinamento.entidades;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cliente")
-public class Cliente {
+public class ClienteEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.senior.treinamento.pedido.item.PedidoItem;
+import br.com.senior.treinamento.entidades.PedidoItemEntity;
 import br.com.senior.treinamento.repository.PedidoItemRepository;
 
 @Service
@@ -16,24 +16,24 @@ public class PedidoItemService {
 	@Autowired
 	private PedidoItemRepository pedidoItemRepository;
 	
-	public PedidoItem salvar(PedidoItem pedidoItem) {
+	public PedidoItemEntity salvar(PedidoItemEntity pedidoItem) {
 		return pedidoItemRepository.save(pedidoItem);
 	}
 
-	public Optional<PedidoItem> buscarPorId(Long id) {
+	public Optional<PedidoItemEntity> buscarPorId(Long id) {
 		return pedidoItemRepository.findById(id);
 	}
 
 	public void deletar(Long id) {
-		Optional<PedidoItem> pedidoItem = pedidoItemRepository.findById(id);
+		Optional<PedidoItemEntity> pedidoItem = pedidoItemRepository.findById(id);
 		if (pedidoItem.isPresent()) {
 			pedidoItemRepository.delete(pedidoItem.get());
 		}
 	}
 
-	public List<PedidoItem> buscarPedidoItems() {
-		List<PedidoItem> pedidoItems = new ArrayList<>();
-		for (PedidoItem pedidoItem : pedidoItemRepository.findAll()) {
+	public List<PedidoItemEntity> buscarPedidoItems() {
+		List<PedidoItemEntity> pedidoItems = new ArrayList<>();
+		for (PedidoItemEntity pedidoItem : pedidoItemRepository.findAll()) {
 			pedidoItems.add(pedidoItem);
 		}
 		return pedidoItems;

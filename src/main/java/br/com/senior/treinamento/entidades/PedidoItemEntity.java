@@ -1,4 +1,4 @@
-package br.com.senior.treinamento.pedido.item;
+package br.com.senior.treinamento.entidades;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.com.senior.treinamento.pedido.Pedido;
-
 @Entity
 @Table(name = "pedido_item")
-public class PedidoItem {
+public class PedidoItemEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +19,7 @@ public class PedidoItem {
 	
 	@ManyToOne
 	@NotNull
-	private Pedido pedido;
+	private PedidoEntity pedido;
 	
 	@Column
 	@NotNull
@@ -35,11 +33,11 @@ public class PedidoItem {
 		this.id = id;
 	}
 
-	public Pedido getPedido() {
+	public PedidoEntity getPedido() {
 		return pedido;
 	}
 
-	public void setPedido(Pedido pedido) {
+	public void setPedido(PedidoEntity pedido) {
 		this.pedido = pedido;
 	}
 

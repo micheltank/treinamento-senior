@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.senior.treinamento.pedido.item.PedidoItem;
+import br.com.senior.treinamento.entidades.PedidoItemEntity;
 import br.com.senior.treinamento.service.PedidoItemService;
 
 @RestController
@@ -26,13 +26,13 @@ public class PedidoItemController {
 	private PedidoItemService pedidoItemService;
 	
 	@PostMapping("/pedidoItem")
-	public ResponseEntity<PedidoItem> criar(@RequestBody PedidoItem pedidoItem) throws URISyntaxException {
+	public ResponseEntity<PedidoItemEntity> criar(@RequestBody PedidoItemEntity pedidoItem) throws URISyntaxException {
 		pedidoItem = pedidoItemService.salvar(pedidoItem);
-		return new ResponseEntity<PedidoItem>(pedidoItem, HttpStatus.CREATED);
+		return new ResponseEntity<PedidoItemEntity>(pedidoItem, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/pedidoItem")
-	public ResponseEntity<Void> alterar(@RequestBody PedidoItem pedidoItem) throws URISyntaxException {
+	public ResponseEntity<Void> alterar(@RequestBody PedidoItemEntity pedidoItem) throws URISyntaxException {
 		if (pedidoItemService.buscarPorId(pedidoItem.getId()) == null) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
@@ -47,16 +47,16 @@ public class PedidoItemController {
 	}
 	
     @GetMapping("/pedidoItens")
-    public ResponseEntity<List<PedidoItem>> buscarPedidoItems() {
-    	List<PedidoItem> pedidoItems = pedidoItemService.buscarPedidoItems();
-        return new ResponseEntity<List<PedidoItem>>(pedidoItems, HttpStatus.OK);
+    public ResponseEntity<List<PedidoItemEntity>> buscarPedidoItems() {
+    	List<PedidoItemEntity> pedidoItems = pedidoItemService.buscarPedidoItems();
+        return new ResponseEntity<List<PedidoItemEntity>>(pedidoItems, HttpStatus.OK);
     }
 
     @GetMapping("/pedidoItem/{id}")
-    public ResponseEntity<PedidoItem> buscarPedidoItem(@PathVariable Long id) {
-        Optional<PedidoItem> pedidoItem = pedidoItemService.buscarPorId(id);
+    public ResponseEntity<PedidoItemEntity> buscarPedidoItem(@PathVariable Long id) {
+        Optional<PedidoItemEntity> pedidoItem = pedidoItemService.buscarPorId(id);
         if (pedidoItem.isPresent()) {
-        	return new ResponseEntity<PedidoItem>(pedidoItem.get(), HttpStatus.OK);
+        	return new ResponseEntity<PedidoItemEntity>(pedidoItem.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

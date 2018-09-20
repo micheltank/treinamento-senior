@@ -5,13 +5,15 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.senior.treinamento.entidades.ClienteEntity;
+
 public class ClienteTest {
 
-	private Cliente cliente;
+	private ClienteEntity cliente;
 	
 	@Before
 	public void setUp() {
-		cliente = new Cliente();
+		cliente = new ClienteEntity();
 	}
 	
 	@Test

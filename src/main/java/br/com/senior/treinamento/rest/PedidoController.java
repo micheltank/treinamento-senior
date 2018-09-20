@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.senior.treinamento.pedido.Pedido;
+import br.com.senior.treinamento.entidades.PedidoEntity;
 import br.com.senior.treinamento.service.PedidoService;
 
 @RestController
@@ -27,13 +27,13 @@ public class PedidoController {
 	private PedidoService pedidoService;
 	
 	@PostMapping("/pedido")
-	public ResponseEntity<Pedido> criar(@RequestBody Pedido pedido) throws URISyntaxException {
+	public ResponseEntity<PedidoEntity> criar(@RequestBody PedidoEntity pedido) throws URISyntaxException {
 		pedido = pedidoService.salvar(pedido);
-		return new ResponseEntity<Pedido>(pedido, HttpStatus.CREATED);
+		return new ResponseEntity<PedidoEntity>(pedido, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/pedido")
-	public ResponseEntity<Void> alterar(@RequestBody Pedido pedido) throws URISyntaxException {
+	public ResponseEntity<Void> alterar(@RequestBody PedidoEntity pedido) throws URISyntaxException {
 		if (pedidoService.buscarPorId(pedido.getId()) == null) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
@@ -48,16 +48,16 @@ public class PedidoController {
 	}
 	
     @GetMapping("/pedidos")
-    public ResponseEntity<List<Pedido>> buscarPedidos() {
-    	List<Pedido> pedidos = pedidoService.buscarPedidos();
-        return new ResponseEntity<List<Pedido>>(pedidos, HttpStatus.OK);
+    public ResponseEntity<List<PedidoEntity>> buscarPedidos() {
+    	List<PedidoEntity> pedidos = pedidoService.buscarPedidos();
+        return new ResponseEntity<List<PedidoEntity>>(pedidos, HttpStatus.OK);
     }
 
     @GetMapping("/pedido/{id}")
-    public ResponseEntity<Pedido> buscarPedido(@PathVariable Long id) {
-        Optional<Pedido> pedido = pedidoService.buscarPorId(id);
+    public ResponseEntity<PedidoEntity> buscarPedido(@PathVariable Long id) {
+        Optional<PedidoEntity> pedido = pedidoService.buscarPorId(id);
         if (pedido.isPresent()) {
-        	return new ResponseEntity<Pedido>(pedido.get(), HttpStatus.OK);
+        	return new ResponseEntity<PedidoEntity>(pedido.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         

@@ -1,4 +1,4 @@
-package br.com.senior.treinamento.pedido;
+package br.com.senior.treinamento.entidades;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,12 +16,9 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.senior.treinamento.cliente.Cliente;
-import br.com.senior.treinamento.pedido.item.PedidoItem;
-
 @Entity
 @Table(name = "pedido")
-public class Pedido {
+public class PedidoEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +26,7 @@ public class Pedido {
 	
 	@ManyToOne
 	@NotNull
-	private Cliente cliente;
+	private ClienteEntity cliente;
 	
 	@Column
 	@NotNull
@@ -37,7 +34,7 @@ public class Pedido {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="pedido")
 	@JsonIgnore
-	private List<PedidoItem> itens;
+	private List<PedidoItemEntity> itens;
 
 	public Long getId() {
 		return id;
@@ -47,11 +44,11 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public Cliente getCliente() {
+	public ClienteEntity getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(ClienteEntity cliente) {
 		this.cliente = cliente;
 	}
 
@@ -63,11 +60,11 @@ public class Pedido {
 		this.data = data;
 	}
 
-	public List<PedidoItem> getItens() {
+	public List<PedidoItemEntity> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<PedidoItem> itens) {
+	public void setItens(List<PedidoItemEntity> itens) {
 		this.itens = itens;
 	}
 	
