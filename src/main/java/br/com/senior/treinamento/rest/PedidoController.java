@@ -60,6 +60,11 @@ public class PedidoController {
         	return new ResponseEntity<PedidoEntity>(pedido.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        
+    }
+    
+    @GetMapping("/pedidos/cliente/{clienteId}")
+    public ResponseEntity<List<PedidoEntity>> buscarPedidosDoCliente(@PathVariable Long clienteId) {
+        List<PedidoEntity> clientes = pedidoService.buscarPedidos(clienteId);
+        return new ResponseEntity<List<PedidoEntity>>(clientes, HttpStatus.OK);
     }
 }

@@ -38,4 +38,12 @@ public class PedidoService {
 		}
 		return pedidos;
 	}
+
+	public List<PedidoEntity> buscarPedidos(Long clienteId) {
+		List<PedidoEntity> pedidos = new ArrayList<>();
+		for (PedidoEntity pedido : pedidoRepository.buscarPedidosDoCliente(clienteId)) {
+			pedidos.add(pedido);
+		}
+		return pedidos;
+	}
 }

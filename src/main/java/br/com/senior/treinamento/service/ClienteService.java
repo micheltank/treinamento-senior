@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.senior.treinamento.entidades.ClienteEntity;
 import br.com.senior.treinamento.repository.ClienteRepository;
+import br.com.senior.treinamento.utils.Validador;
 
 @Service
 public class ClienteService {
@@ -16,7 +17,11 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
+	@Autowired
+	private Validador validador;
+	
 	public ClienteEntity salvar(ClienteEntity cliente) {
+		validador.validaTamanhoMinimoString(cliente.getNome(), 3);
 		return clienteRepository.save(cliente);
 	}
 
@@ -39,4 +44,11 @@ public class ClienteService {
 		return clientes;
 	}
 
+	public List<ClienteEntity> buscarPeloNome(String nome) {
+		List<ClienteEntity> clientes = new ArrayList<>();
+		for (ClienteEntity cliente : clienteRepository.findByNomeIgnoreCase(nome)) {
+			clientes.add(cliente);
+		}
+		return clientes;
+	}
 }
