@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.validation.ValidationException;
 import javax.websocket.server.PathParam;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,9 +27,12 @@ import br.com.senior.treinamento.service.ClienteService;
 @RequestMapping("/api")
 public class ClienteController {
 
-	@Autowired
 	private ClienteService clienteService;
-
+	
+	public ClienteController(ClienteService clienteService) {
+		this.clienteService = clienteService;
+	}
+	
 	@PostMapping("/cliente")
 	public ResponseEntity<ClienteEntity> criar(@RequestBody ClienteEntity cliente) throws URISyntaxException {
 		cliente = clienteService.salvar(cliente);

@@ -1,4 +1,4 @@
-package br.com.senior.treinamento.cliente;
+package br.com.senior.treinamento.entidades.cliente;
 
 import static org.junit.Assert.assertEquals;
 
