@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.senior.treinamento.cliente.Cliente;
 import br.com.senior.treinamento.pedido.item.PedidoItem;
@@ -25,11 +28,47 @@ public class Pedido {
 	private Long id;
 	
 	@ManyToOne
+	@NotNull
 	private Cliente cliente;
 	
 	@Column
+	@NotNull
 	private LocalDateTime data;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="pedido")
+	@JsonIgnore
 	private List<PedidoItem> itens;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public LocalDateTime getData() {
+		return data;
+	}
+
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
+
+	public List<PedidoItem> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<PedidoItem> itens) {
+		this.itens = itens;
+	}
+	
 }

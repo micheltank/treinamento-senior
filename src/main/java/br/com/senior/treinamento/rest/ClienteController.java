@@ -60,7 +60,6 @@ public class ClienteController {
         	return new ResponseEntity<Cliente>(cliente.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        
     }
     
 }
