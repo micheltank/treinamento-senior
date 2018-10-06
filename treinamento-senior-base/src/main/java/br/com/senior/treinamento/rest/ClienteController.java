@@ -33,7 +33,7 @@ public class ClienteController {
 		this.clienteService = clienteService;
 	}
 	
-	@PostMapping("/cliente")
+	@PostMapping("/clientes")
 	public ResponseEntity<ClienteEntity> criar(@RequestBody ClienteEntity cliente) throws URISyntaxException {
 		cliente = clienteService.salvar(cliente);
 		return new ResponseEntity<ClienteEntity>(cliente, HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class ClienteController {
 		return new ResponseEntity<>(new Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 
-	@PutMapping("/cliente")
+	@PutMapping("/clientes")
 	public ResponseEntity<Void> alterar(@RequestBody ClienteEntity cliente) throws URISyntaxException {
 		if (clienteService.buscarPorId(cliente.getId()) == null) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ public class ClienteController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	@DeleteMapping("/cliente/{id}")
+	@DeleteMapping("/clientes/{id}")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 		clienteService.deletar(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -65,7 +65,7 @@ public class ClienteController {
 		return new ResponseEntity<List<ClienteEntity>>(clientes, HttpStatus.OK);
 	}
 
-	@GetMapping("/cliente/{id}")
+	@GetMapping("/clientes/{id}")
 	public ResponseEntity<ClienteEntity> buscarCliente(@PathVariable Long id) {
 		Optional<ClienteEntity> cliente = clienteService.buscarPorId(id);
 		if (cliente.isPresent()) {
@@ -74,7 +74,7 @@ public class ClienteController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@GetMapping("/cliente/buscar")
+	@GetMapping("/clientes/buscar")
 	public ResponseEntity<List<ClienteEntity>> buscarCliente(@PathParam(value = "nome") String nome) {
 		List<ClienteEntity> clientes = clienteService.buscarPeloNome(nome);
 		return new ResponseEntity<List<ClienteEntity>>(clientes, HttpStatus.OK);

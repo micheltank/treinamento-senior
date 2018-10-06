@@ -2,11 +2,11 @@ package br.com.senior.treinamento.utils;
 
 import javax.validation.ValidationException;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
 
-@Controller
+@Component
 public class Validador {
 
 	public void validaTamanhoMinimoString(String valor, int tamanhoMinimo) {
