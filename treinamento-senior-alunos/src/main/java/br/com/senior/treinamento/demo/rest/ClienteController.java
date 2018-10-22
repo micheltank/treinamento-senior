@@ -1,7 +1,9 @@
 package br.com.senior.treinamento.demo.rest;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,42 +39,43 @@ public class ClienteController {
 	@PutMapping("/clientes")
 	public ResponseEntity<Void> alterar(@RequestBody ClienteEntity cliente) {
 		System.out.println("Alterando cliente");
-		//TODO: Implementar alteração
+		if (!clienteService.buscarPorId(cliente.getId()).isPresent()) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+		clienteService.salvar(cliente);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	
 	@DeleteMapping("/clientes/{id}")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 		System.out.println("Deletando cliente");
-		//TODO: Implementar exclusão
+		if (!clienteService.buscarPorId(id).isPresent()) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+		clienteService.deletar(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/clientes/{id}") 
 	public ResponseEntity<ClienteEntity> buscarCliente(@PathVariable Long id) {
 		System.out.println("Buscando cliente");
-		//TODO: Implementar busca de cliente
-		ClienteEntity cliente = new ClienteEntity();
-		cliente.setId(id);
-		cliente.setNome("Pedro");
-		return new ResponseEntity<ClienteEntity>(cliente, HttpStatus.OK);
+		Optional<ClienteEntity> cliente = clienteService.buscarPorId(id);
+		if (cliente.isPresent()) {
+			return new ResponseEntity<ClienteEntity>(cliente.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping("/clientes")
 	public ResponseEntity<List<ClienteEntity>> buscarClientes() {
 		System.out.println("Buscando clientes");
-		//TODO: Implementar busca de clientes
-		List<ClienteEntity> clientes = new ArrayList<ClienteEntity>();
-		ClienteEntity clientePedro = new ClienteEntity();
-		clientePedro.setId(1L);
-		clientePedro.setNome("Pedro");
-		clientes.add(clientePedro);
-		
-		ClienteEntity clienteJoao = new ClienteEntity();
-		clienteJoao.setId(2L);
-		clienteJoao.setNome("Joao");
-		clientes.add(clienteJoao);
-		
+		List<ClienteEntity> clientes = clienteService.buscarClientes();
+		return new ResponseEntity<List<ClienteEntity>>(clientes, HttpStatus.OK);
+	}
+	
+	@GetMapping("/clientes/buscar")
+	public ResponseEntity<List<ClienteEntity>> buscarCliente(@PathParam(value = "nome") String nome) {
+		List<ClienteEntity> clientes = clienteService.buscarPorNome(nome);
 		return new ResponseEntity<List<ClienteEntity>>(clientes, HttpStatus.OK);
 	}
 }

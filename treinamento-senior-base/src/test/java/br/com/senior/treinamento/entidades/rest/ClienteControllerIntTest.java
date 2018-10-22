@@ -38,101 +38,101 @@ public class ClienteControllerIntTest {
 
 	private static final String DEFAULT_NOME = "Joao";
 	private static final String UPDATED_NOME = "Joao da Silva";
-	
+
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
-	
+
 	private MockMvc restClienteMockMvc;
-	
+
 	private ClienteEntity cliente;
-	
+
 	@Before
 	public void setup() {
 		final ClienteController clienteController = new ClienteController(clienteService);
 		this.restClienteMockMvc = MockMvcBuilders.standaloneSetup(clienteController)
 				.setMessageConverters(jacksonMessageConverter).build();
 	}
-	
+
 	private static ClienteEntity criarEntidade() {
 		ClienteEntity cliente = new ClienteEntity();
 		cliente.setNome("Joao");
 		return cliente;
 	}
-	
+
 	@Before
 	public void initTest() {
 		cliente = criarEntidade();
 	}
-	
+
 	@Test
 	@Transactional
 	public void criarCliente() throws Exception {
 		long quantidadeRegistrosAntesDeCriar = clienteRepository.count();
-		
-		restClienteMockMvc.perform(post("/api/cliente")
+
+		restClienteMockMvc.perform(post("/api/clientes")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(cliente)))
 			.andExpect(status().isCreated());
-		
+
 		long quantidadeRegistrosDepoisDeCriar = clienteRepository.count();
-		
+
 		assertThat(quantidadeRegistrosDepoisDeCriar).isEqualTo(quantidadeRegistrosAntesDeCriar + 1);
 		assertThat(cliente.getNome()).isEqualTo(DEFAULT_NOME);
 	}
-	
+
 	@Test
 	public void buscarClientes() throws Exception {
 		clienteService.salvar(cliente);
-		
+
 		restClienteMockMvc.perform(get("/api/clientes"))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(jsonPath("$.[*].id").value(hasItem(cliente.getId().intValue())))
 			.andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME.toString())));
 	}
-	
+
 	@Test
 	public void buscarCliente() throws Exception {
 		cliente = clienteService.salvar(cliente);
-		
-		restClienteMockMvc.perform(get("/api/cliente/{id}", cliente.getId()))
+
+		restClienteMockMvc.perform(get("/api/clientes/{id}", cliente.getId()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(jsonPath("$.id").value(cliente.getId().intValue()))
 			.andExpect(jsonPath("$.nome").value(DEFAULT_NOME.toString()));
 	}
-	
+
 	@Test
 	public void atualizarCliente() throws IOException, Exception {
 		cliente = clienteService.salvar(cliente);
 		cliente.setNome("Joao da Silva");
-		
-		restClienteMockMvc.perform(put("/api/cliente")
+
+		restClienteMockMvc.perform(put("/api/clientes")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(cliente)))
 			.andExpect(status().isNoContent());
-		
+
 		Optional<ClienteEntity> clienteAlterado = clienteService.buscarPorId(cliente.getId());
 		assertThat(clienteAlterado.get().getNome()).isEqualTo(UPDATED_NOME);
 	}
-	
+
 	@Test
 	public void deletarCliente() throws Exception {
 		cliente = clienteService.salvar(cliente);
-		
+
 		long quantidadeRegistrosAntesDeCriar = clienteRepository.count();
-		
-		restClienteMockMvc.perform(delete("/api/cliente/{id}", cliente.getId()))
+
+		restClienteMockMvc.perform(delete("/api/clientes/{id}", cliente.getId()))
 			.andExpect(status().isNoContent());
 
 		long quantidadeRegistrosDepoisDeCriar = clienteRepository.count();
-		
-		assertThat(quantidadeRegistrosDepoisDeCriar).isEqualTo(quantidadeRegistrosAntesDeCriar - 1);		
+
+		assertThat(quantidadeRegistrosDepoisDeCriar).isEqualTo(quantidadeRegistrosAntesDeCriar - 1);
 	}
 }
